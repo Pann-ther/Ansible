@@ -1,0 +1,9 @@
+---
+- name: update linux servers
+  hosts: linux
+  become: yes
+
+  tasks:
+    - name: update_dns
+      shell: |
+        echo "nameserver 10.10.10.71\nnameserver 10.10.10.72" > /etc/resolv.conf

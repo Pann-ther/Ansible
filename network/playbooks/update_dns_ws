@@ -1,0 +1,7 @@
+- name: update windows servers
+  hosts: windows
+  tasks:
+    - name: update_dns
+      win_shell: |
+        $iface = get-netadapter | where-object {$_.status -eq "up"} 
+        set-dnsclientserveraddress -interfaceindex $iface.InterfaceIndex -serveraddresses {"10.10.10.14", "10.10.10.12"}
