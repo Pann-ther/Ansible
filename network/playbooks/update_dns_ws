@@ -1,7 +1,11 @@
 - name: update windows servers
   hosts: windows
+  gather_facts: no
+
   tasks:
-    - name: update_dns
+    - name: Set DNS servers
       win_shell: |
-        $iface = get-netadapter | where-object {$_.status -eq "up"} 
-        set-dnsclientserveraddress -interfaceindex $iface.InterfaceIndex -serveraddresses {"10.10.10.14", "10.10.10.12"}
+        $iface = Get-NetAdapter | Where-Object { $_.Status -eq "Up" } | Select-Object -First 1
+        $index = $iface.InterfaceIndex
+        Set-DnsClientServerAddress -InterfaceIndex $index -ServerAddresses ("10.10.10.71", "10.10.10.72")
+
